@@ -38,10 +38,33 @@ def web_search(query: str):
 
     return "\n".join(output)
 
+def read_file(path: str):
+
+    """
+    Read the contents of a text or Markdown file.
+
+    Use this tool when the user asks about information
+    contained in a local file.
+    """
+
+    try:
+        with open(path, "r") as file:
+            content = file.read()
+
+        return content
+
+    except FileNotFoundError:
+        return f"File not found: {path}"
+
+    except Exception as e:
+        return f"Error reading file: {str(e)}"
+    
+
 #-------------------tools-------------------------    
 tools = [
     calculator,
-    web_search
+    web_search,
+    read_file
 ]
 
 
@@ -84,6 +107,11 @@ while True:
             elif tool_name == "web_search":
                 result = web_search(
                     arguments["query"]
+                )
+
+            elif tool_name == "read_file":
+                result = read_file(
+                    arguments["path"]
                 )
 
             else:
