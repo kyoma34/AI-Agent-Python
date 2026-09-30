@@ -1,5 +1,7 @@
 from ollama import chat
 from ddgs import DDGS
+from pathlib import Path
+from pypdf import PdfReader
 
 #---------------------fucntions-----------------------
 def calculator(a,b,operator):
@@ -41,21 +43,35 @@ def web_search(query: str):
 def read_file(path: str):
 
     """
-    Read the contents of a text or Markdown file.
+    Read the contents of a text, Markdown or PDF file.
 
     Use this tool when the user asks about information
     contained in a local file.
     """
 
     try:
-        with open(path, "r") as file:
-            content = file.read()
+        file_path = Path(path)
 
-        return content
+        if not file_path.exists():
+            return f"File not found: {path}"
+        extension = file_path.suffix.lower()
 
-    except FileNotFoundError:
-        return f"File not found: {path}"
+        if extension in [".txt", ".md"]:
+            return file_path.read_text(encoding="utf-8")
+        
+        elif extension == ".pdf":
+            reader = PdfReader(path)
+            pages = []
+            for page in reader.pages:
+                text = page.extract_text()
 
+                if text:
+                    pages.append(text)
+
+            return "\n\n".join(pages)
+
+        else:
+            return f"Unsupported file type: {extension}"
     except Exception as e:
         return f"Error reading file: {str(e)}"
     
