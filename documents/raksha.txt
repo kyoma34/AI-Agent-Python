@@ -1,0 +1,13 @@
+RAKSHA is a Tunisian-inspired coffee shop game.
+
+The game focuses on traditional card games including Rami and Chkobba.
+
+RAKSHA currently supports four players.
+
+The game is being developed using Unity.
+
+The initial target platform is PC.
+
+Multiplayer may be added in the future.
+
+The game includes a coffee shop environment where friends can meet.
